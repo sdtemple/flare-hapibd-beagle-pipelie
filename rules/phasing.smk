@@ -27,17 +27,32 @@ rule unphase_adx:
         '''
 
 # merge the unphased files
+
+rule isec:
+    input:
+        adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
+        refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
+    output:
+        intersection='{study}/gtdata/all/chr{num}.intersection.txt',
+    shell:
+        '''
+        tabix -fp vcf {input.adxvcf}
+        tabix -fp vcf {input.refvcf}
+        bcftools isec -O z -o {output.intersection} {input.adxvcf} {input.refvcf}
+        '''
+
 rule merge_vcfs:
     input:
         adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
+        intersection'{study}/gtdata/all/chr{num}.intersection.txt'
     output:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
     shell:
         '''
         tabix -fp vcf {input.adxvcf}
         tabix -fp vc {input.refvcf}
-        bcftools concat -a -O z -o {output.allvcf} {input.adxvcf} {input.refvcf}
+        bcftools merge -O z -R {input.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
         rm {input.adxvcf} {input.refvcf}
         rm {input.adxvcf}.tbi {input.refvcf}.tbi
         '''
@@ -50,7 +65,7 @@ rule merge_vcfs:
 rule phase_all:
     input:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
-        chrmap='{study}/gtdata/maps/chr{num}.map',
+        chrmap='{study}/maps/chr{num}.map',
     output:
         allvcf='{study}/gtdata/all/chr{num}.rephased.vcf.gz',
     params:
@@ -64,7 +79,7 @@ rule phase_all:
         java -Xmx{params.xmx}g -jar {params.phase} \
             gt={input.allvcf} \
             map={input.chrmap} \
-            out={param.allvcfout} \
+            out={params.allvcfout} \
             nthreads={params.thr} \
             excludesamples={params.excludesamples}
         rm {input.allvcf}

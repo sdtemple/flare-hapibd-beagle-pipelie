@@ -24,14 +24,11 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
 ### Run the pipeline 
 
 1. `conda activate flare24`
-2. (Optional) Do a preliminary analysis to exclude markers or samples
-    - Write these in files `excludemarkers.txt` and `excludesamples.txt`
-    - They are by default empty 
-3. Modify the `your.analysis.arguments.yaml` file
+2. Modify the `your.analysis.arguments.yaml` file
     - See the `change:` settings
-4. `snakemake -c1 -n`
+3. `snakemake -c1 -n`
     - This is a dry run to see what will be run
-5. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster " [your command]  " --configfile your.analysis.arguments.yaml --jobs XXX &`
+4. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster " [your command]  " --configfile your.analysis.arguments.yaml --jobs XXX &`
     - Other useful `snakemake` commands
         - `--rerun-incomplete`
         - `--rerun-triggers mtime`
@@ -44,18 +41,22 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
     - Commands for `slurm`
         - TBD
     - You can sign out of cluster. `no hup ... &` will keep this as an ongoing process until complete
-6. Your LAI results in a `lai/` folder
-7. Your IBD results in a `ibdsegs/` folder
+5. Your LAI results in a `lai/` folder
+6. Your IBD results in a `ibdsegs/` folder
     - By default, do not detect IBD segments
 
 For reproducibility, the `arguments.yaml` in the main folder says what you ran. Don't change it ever!
 
-For robustness, you can create different `*.yaml` settings and see how results change. Make sure to change the `your-analysis-folder` setting. 
+For robustness, you can create different `*.yaml` settings and see how results change. 
+
+Make sure to change the `your-analysis-folder` setting. 
 
 ### Contact
 
 Seth D. Temple
+
 sdtemple.github.io
+
 sdtemple@uw.edu
 
 ### Citation

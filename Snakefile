@@ -4,8 +4,8 @@ import os
 
 ### setup macro folder
 macro=str(config['change']['want-data']['your-analysis-folder'])
-low=int(str(config['change']['want-data']['chrlow']))
-high=int(str(config['change']['want-data']['chrhigh']))
+low=int(str(config['change']['want-data']['chr-low']))
+high=int(str(config['change']['want-data']['chr-high']))
 
 ### setup the folder structure
 

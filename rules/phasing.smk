@@ -45,7 +45,7 @@ rule merge_vcfs:
     input:
         adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
-        intersection'{study}/gtdata/all/chr{num}.intersection.txt'
+        intersection='{study}/gtdata/all/chr{num}.intersection.txt'
     output:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
     shell:

@@ -10,7 +10,7 @@ dependencies:
   - scipy>=1.7
   - matplotlib
   - seaborn
-  - snakemake
+  - snakemake=7.25.2
   - jupyter
   - notebook
   - pip

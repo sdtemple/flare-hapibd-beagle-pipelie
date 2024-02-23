@@ -72,7 +72,7 @@ include: 'rules/phasing.smk'
 # this tells you what the pipeline will do
 # this rule will also copy the arguments you used
 
-rule all:
+rule yaml:
     input:
         # modify to say what files you demand
         [macro+'/lai/chr'+str(i)+'.rephased.flare.adx.anc.vcf.gz' for i in range(low,high+1)],
@@ -84,3 +84,7 @@ rule all:
         yaml=str(config['change']['pipe']['yaml']),
     shell:
         'cp {params.yaml} {output.yaml}'
+
+rule all:
+    input:
+        macro+'/arguments.yaml'

@@ -4,7 +4,7 @@ args=commandArgs(trailingOnly=TRUE)
 # via SeqArray
 filein=seqOpen(args[1])
 fileout=args[2]
-seqGDS2VCF(filein, fileout)
+seqGDS2VCF(filein, fileout, info.var=character(0), fmt.var="GT")
 
 # library(gdsfmt)
 # library(SNPRelate)

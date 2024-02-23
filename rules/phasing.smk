@@ -56,13 +56,12 @@ rule phase_all:
     params:
         phase=str(config['fixed']['programs']['beagle']),
         allvcfout='{study}/gtdata/all/chr{num}.rephased',
-        xmx=config['fixed']['cluster-resources']['xmxmem'],
-        thr=config['fixed']['cluster-resources']['threads'],
-        excludemarkers=str(config['change']['existing-data']['exclude-markers']),
+        xmx=config['change']['cluster-resources']['xmxmem'],
+        thr=config['change']['cluster-resources']['threads'],
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
     shell:
         '''
-        java -Xmx{params.}g -jar {params.phase} \
+        java -Xmx{params.xmx}g -jar {params.phase} \
             gt={input.allvcf} \
             map={input.chrmap} \
             out={param.allvcfout} \

@@ -15,8 +15,8 @@ rule flare:
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
         gen=str(config['fixed']['flare-parameters']['gen']),
-        minmaf=str(config['fixed']['flare-parameters']['minmaf']),
-        minmac=str(config['fixed']['flare-parameters']['minmac']),
+        minmaf=str(config['fixed']['flare-parameters']['min-maf']),
+        minmac=str(config['fixed']['flare-parameters']['min-mac']),
         probs=str(config['fixed']['flare-parameters']['probs']),
         prog=str(config['fixed']['programs']['flare']),
         out='{study}/lai/chr{num}.rephased.flare.adx'

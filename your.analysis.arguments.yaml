@@ -54,7 +54,7 @@ fixed:
     # https://github.com/browning-lab/hap-ibd
     hapibd: 'hap-ibd.jar'
     # https://github.com/browning-lab/ibd-ends
-    rmphase: 'remove-phase.jar'
+    remove-phase: 'remove-phase.jar'
     # https://github.com/browning-lab/ibd-ends
     beagle: 'beagle.jar'
     # https://github.com/browning-lab/ibd-ends

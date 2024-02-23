@@ -2,13 +2,13 @@
 
 ### inputs, string management, count sample size, make mac
 macro=str(config['change']['want-data']['your-analysis-folder'])
-low=int(float(str(config['change']['want-data']['chrlow'])))
-high=int(float(str(config['change']['want-data']['chrhigh'])))
+low=int(float(str(config['change']['want-data']['chr-low'])))
+high=int(float(str(config['change']['want-data']['chr-high'])))
 refgdsfolder=str(config['change']['existing-data']['ref-gds-folder'])
-refgdsprefix=str(config['chang']['existing-data']['ref-gds-prefix'])
+refgdsprefix=str(config['change']['existing-data']['ref-gds-prefix'])
 refgdssuffix=str(config['change']['existing-data']['ref-gds-suffix'])
 adxgdsfolder=str(config['change']['existing-data']['adx-gds-folder'])
-adxgdsprefix=str(config['chang']['existing-data']['adx-gds-prefix'])
+adxgdsprefix=str(config['change']['existing-data']['adx-gds-prefix'])
 adxgdssuffix=str(config['change']['existing-data']['adx-gds-suffix'])
 
 

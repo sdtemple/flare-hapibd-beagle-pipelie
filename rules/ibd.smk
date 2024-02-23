@@ -13,7 +13,7 @@ rule hapibd_ref:
     output:
         refhap='{study}/gtdata/refpop/chr{num}.rephased.hapibd.ref.ibd.gz',
     params:
-        minout=str(config['fixed']['hapibd-parameters']['min-out']),
+        minout=str(config['fixed']['hapibd-parameters']['min-output']),
         minextend=str(config['fixed']['hapibd-parameters']['min-extend']),
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
         maxgap=str(config['fixed']['hapibd-parameters']['max-gap']),
@@ -44,7 +44,7 @@ rule hapibd_adx:
     output:
         adxhap='{study}/ibdsegs/chr{num}.rephased.hapibd.adx.ibd.gz',
     params:
-        minout=str(config['fixed']['hapibd-parameters']['min-out']),
+        minout=str(config['fixed']['hapibd-parameters']['min-output']),
         minextend=str(config['fixed']['hapibd-parameters']['min-extend']),
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
         maxgap=str(config['fixed']['hapibd-parameters']['max-gap']),

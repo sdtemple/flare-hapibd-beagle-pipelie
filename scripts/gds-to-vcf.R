@@ -11,9 +11,7 @@ tryCatch({
   seqClose(args[1])
 }, error=function(e) {
   print(e)
-  filein=snpgdsOpen(args[1])
-  seqSNP2GDS(filein,paste(args[1],".seq.gds",sep=""))
-  snpgdsClose(filein)
+  seqSNP2GDS(args[1],paste(args[1],".seq.gds",sep=""))
   filein=seqOpen(paste(args[1],".seq.gds",sep=""))
   seqGDS2VCF(filein, fileout, info.var=character(0), fmt.var="GT")
   seqClose(filein)

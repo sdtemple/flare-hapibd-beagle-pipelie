@@ -21,6 +21,7 @@ rule hapibd_ref:
         refout='{study}/ibdsegs/chr{num}.rephased.hapibd.ref',
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
+        minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
         java -Xmx{params.xmxmem}g -jar {params.prog} \
@@ -51,6 +52,7 @@ rule hapibd_adx:
         adxout='{study}/ibdsegs/chr{num}.rephased.hapibd.adx',
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
+        minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
         java -Xmx{params.xmxmem}g -jar {params.prog} \

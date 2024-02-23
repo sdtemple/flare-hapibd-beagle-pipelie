@@ -74,7 +74,7 @@ include: 'rules/phasing.smk'
 rule all:
     input:
         # modify to say what files you demand
-        [macro+'/lai/chr'+str(i)+'.rephased.flare.adx.vcf.gz' for i in range(low,high+1)],
+        [macro+'/lai/chr'+str(i)+'.rephased.flare.adx.anc.vcf.gz' for i in range(low,high+1)],
         # [macro+'/ibdsegs/chr'+str(i)+'.rephased.hapibd.adx.ibd.gz' for i in range(low,high+1)],
         # [macro+'/ibdsegs/chr'+str(i)+'.rephased.hapibd.ref.ibd.gz' for i in range(low,high+1)],
     output:

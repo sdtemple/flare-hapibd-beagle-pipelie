@@ -8,8 +8,10 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
 
 1. `git clone https://github.com/sdtemple/flare-hapibd-beagle-pipeline`
 2. Install `java` so as to be able to run `java -jar` on terminal
-3. `bash get-software.sh` (requires `wget`)
+3. `bash get-software.sh software` (requires `wget`)
 4. `conda env create -f conda-env.yml`
+    - I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
+    - In which case, `mamba env create -f conda-env.yml`
 
 ### Requirements
 
@@ -17,9 +19,9 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
     - Reference samples
     - Target admixed samples
 - Map between reference sample IDs to their reference panel
-    - Call this ``
+    - Point to this file in your YAML settings
 
-### Run the pipeline
+### Run the pipeline 
 
 1. `conda activate flare24`
 2. (Optional) Do a preliminary analysis to exclude markers or samples
@@ -29,7 +31,7 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
     - See the `change:` settings
 4. `snakemake -c1 -n`
     - This is a dry run to see what will be run
-5. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster "" --configfile your.analysis.arguments.yaml --jobs XXX &`
+5. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster " [your command]  " --configfile your.analysis.arguments.yaml --jobs XXX &`
     - Other useful `snakemake` commands
         - `--rerun-incomplete`
         - `--rerun-triggers mtime`
@@ -45,6 +47,10 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
 6. Your LAI results in a `lai/` folder
 7. Your IBD results in a `ibdsegs/` folder
     - By default, do not detect IBD segments
+
+For reproducibility, the `arguments.yaml` in the main folder says what you ran. Don't change it ever!
+
+For robustness, you can create different `*.yaml` settings and see how results change. Make sure to change the `your-analysis-folder` setting. 
 
 ### Contact
 

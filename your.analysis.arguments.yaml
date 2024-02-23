@@ -37,7 +37,6 @@ change:
     maps-prefix: 'decode2019.chrchr'
     maps-suffix: '.GRCh38.map'
     # markers or samples to exclude based on prelim analysis
-    exclude-markers: 'excludemarkers.txt'
     exclude-samples: 'excludesamples.txt'
 
   # compute resources for your analysis
@@ -70,7 +69,7 @@ fixed:
     # min-output
     min-output: '2.0'
     # minimum minor allele frequency
-    min-maf: '0.05'
+    min-mac: '2'
     # maximum basepair gap
     max-gap: '1000'
     # minimum markers

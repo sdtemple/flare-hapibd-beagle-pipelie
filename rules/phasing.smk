@@ -35,7 +35,11 @@ rule merge_vcfs:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
     shell:
         '''
+        tabix -fp vcf {input.adxvcf}
+        tabix -fp vc {input.refvcf}
         bcftools concat -a -O z -o {output.allvcf} {input.adxvcf} {input.refvcf}
+        rm {input.adxvcf} {input.refvcf}
+        rm {input.adxvcf}.tbi {input.refvcf}.tbi
         '''
 
 # another phasing strategy
@@ -63,8 +67,9 @@ rule phase_all:
             map={input.chrmap} \
             out={param.allvcfout} \
             nthreads={params.thr} \
-            excludemarkers={params.excludemarkers} \
             excludesamples={params.excludesamples}
+        rm {input.allvcf}
+        rm {input.allvcf}.tbi
         '''
 
 # subset the phased files for admixed samples
@@ -76,6 +81,7 @@ rule subset_phased_adx:
         adxvcf='{study}/gtdata/adxpop/chr{num}.rephased.vcf.gz',
     shell:
         '''
+        tabix -fp vcf {input.allvcf}
         bcftools view -S {input.adxsam} -O z -o {output.adxvcf} {input.allvcf}
         '''
 
@@ -88,5 +94,6 @@ rule subset_phased_ref:
         refvcf='{study}/gtdata/refpop/chr{num}.rephased.vcf.gz',
     shell:
         '''
+        tabix -fp vcf {input.allvcf}
         bcftools view -S {input.refsam} -O z -o {output.refvcf} {input.allvcf}
         '''

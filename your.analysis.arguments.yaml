@@ -1,0 +1,88 @@
+##### the arguments for your pipeline analysis
+
+### you can change these
+change:
+
+  # parameters, subsample file
+  want-data:
+    # the location of all results
+    your-analysis-folder: '/path-to-study/eur'
+    # lowest chromosome number
+    chr-low: '21'
+    # highest chromosome numbers
+    chr-high: '22'
+
+  # location of your pipeline folders, files
+  pipe:
+    # the yaml file with scan analysis options
+    yaml: 'your.analysis.arguments.yaml'
+    # folder where python or R scripts are
+    scripts: 'scripts'
+    # folder where software is
+    software: 'software'
+
+  # location of your data
+  existing-data:
+    # these are reference sample vcfs
+    ref-gds-folder: ''
+    ref-gds-prefix: ''
+    ref-gds-suffix: ''
+    ref-panel-map: ''
+    # these are target sample vcfs
+    adx-gds-folder: ''
+    adx-gds-prefix: ''
+    adx-gds-suffix: ''
+    # these are genetic maps
+    maps-folder: '/path-to-genetic-maps/decode.2019.b38'
+    maps-prefix: 'decode2019.chrchr'
+    maps-suffix: '.GRCh38.map'
+    # markers or samples to exclude based on prelim analysis
+    exclude-markers: 'excludemarkers.txt'
+    exclude-samples: 'excludesamples.txt'
+
+  # compute resources for your analysis
+  cluster-resources:
+    xmxmem: '240' # in gb
+    threads: '16'
+
+### you should keep these fixed
+fixed:
+
+  # download these software
+  # bash get-software.sh
+  # in this git repo!
+  programs:
+    # https://github.com/browning-lab/hap-ibd
+    hapibd: 'hap-ibd.jar'
+    # https://github.com/browning-lab/ibd-ends
+    rmphase: 'remove-phase.jar'
+    # https://github.com/browning-lab/ibd-ends
+    beagle: 'beagle.jar'
+    # https://github.com/browning-lab/ibd-ends
+    flare: 'flare.jar'
+
+  # hap-ibd.jar parameters
+  hapibd-parameters:
+    # min-seed
+    min-seed: '1.0'
+    # min-extend
+    min-extend: '0.2'
+    # min-output
+    min-output: '2.0'
+    # minimum minor allele frequency
+    min-maf: '0.05'
+    # maximum basepair gap
+    max-gap: '1000'
+    # minimum markers
+    min-markers: '100'
+
+  # flare.jar parameters
+  flare-parameters:
+    min-maf: '0.005'
+    min-mac: '50'
+    gen: '10.0'
+    probs: 'false'
+
+  # beagle.jar parameters
+  # use the defaults
+  beagle-parameters:

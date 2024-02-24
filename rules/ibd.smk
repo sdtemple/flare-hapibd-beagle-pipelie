@@ -13,6 +13,7 @@ rule hapibd_ref:
     output:
         refhap='{study}/gtdata/refpop/chr{num}.rephased.hapibd.ref.ibd.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),
         minextend=str(config['fixed']['hapibd-parameters']['min-extend']),
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
@@ -24,7 +25,7 @@ rule hapibd_ref:
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
-        java -Xmx{params.xmxmem}g -jar {params.prog} \
+        java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.refvcf} \
             map={input.chrmap} \
             out {output.refout} \
@@ -44,6 +45,7 @@ rule hapibd_adx:
     output:
         adxhap='{study}/ibdsegs/chr{num}.rephased.hapibd.adx.ibd.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),
         minextend=str(config['fixed']['hapibd-parameters']['min-extend']),
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
@@ -55,7 +57,7 @@ rule hapibd_adx:
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
-        java -Xmx{params.xmxmem}g -jar {params.prog} \
+        java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.adxvcf} \
             map={input.chrmap} \
             out {output.adxout} \

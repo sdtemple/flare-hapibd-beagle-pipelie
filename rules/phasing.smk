@@ -7,10 +7,11 @@ rule unphase_ref:
     output:
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         rmphase=str(config['fixed']['programs']['remove-phase']),
     shell:
         '''
-        zcat {input.refvcf} | java -jar {params.rmphase} 100395 | gzip -c > {output.refvcf}
+        zcat {input.refvcf} | java -jar {params.software}/{params.rmphase} 100395 | gzip -c > {output.refvcf}
         '''
 
 # remove phase in admixed samples
@@ -20,6 +21,7 @@ rule unphase_adx:
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         rmphase=str(config['fixed']['programs']['remove-phase']),
     shell:
         '''
@@ -69,6 +71,7 @@ rule phase_all:
     output:
         allvcf='{study}/gtdata/all/chr{num}.rephased.vcf.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         phase=str(config['fixed']['programs']['beagle']),
         allvcfout='{study}/gtdata/all/chr{num}.rephased',
         xmx=config['change']['cluster-resources']['xmxmem'],
@@ -76,7 +79,7 @@ rule phase_all:
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
     shell:
         '''
-        java -Xmx{params.xmx}g -jar {params.phase} \
+        java -Xmx{params.xmx}g -jar {params.software}/{params.phase} \
             gt={input.allvcf} \
             map={input.chrmap} \
             out={params.allvcfout} \

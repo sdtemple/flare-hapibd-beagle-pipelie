@@ -12,6 +12,7 @@ rule flare:
     output:
         outvcf='{study}/lai/chr{num}.rephased.flare.adx.anc.vcf.gz',
     params:
+        software=str(config['change']['pipe']['software']),
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
         gen=str(config['fixed']['flare-parameters']['gen']),
@@ -22,7 +23,7 @@ rule flare:
         out='{study}/lai/chr{num}.rephased.flare.adx'
     shell:
         '''
-        java -Xmx{params.xmxmem}g -jar {params.prog} \
+        java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             ref={input.refvcf} \
             ref-panel={input.refpanelmap} \
             gt={input.adxvcf} \

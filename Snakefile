@@ -72,7 +72,7 @@ include: 'rules/phasing.smk'
 # this tells you what the pipeline will do
 # this rule will also copy the arguments you used
 
-rule yaml:
+rule record_yaml:
     input:
         [macro+'/lai/chr'+str(i)+'.rephased.flare.adx.anc.vcf.gz' for i in range(low,high+1)],
         # [macro+'/ibdsegs/chr'+str(i)+'.rephased.hapibd.adx.ibd.gz' for i in range(low,high+1)],

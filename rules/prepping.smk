@@ -15,7 +15,7 @@ adxgdssuffix=str(config['change']['existing-data']['adx-gds-suffix'])
 ### ln -s the gds files
 
 # direct to the gds file for reference samples
-rule copy_gds_ref:
+rule copy_ln_gds_ref:
     input:
         refgds=refgdsfolder + '/' + refgdsprefix + '{num}' + refgdssuffix,
         maps='{study}/maps/chr{num}.map',
@@ -27,7 +27,7 @@ rule copy_gds_ref:
         '''
 
 # direct to the gds file for admixed samples
-rule copy_gds_adx:
+rule copy_ln_gds_adx:
     input:
         adxgds=adxgdsfolder + '/' + adxgdsprefix + '{num}' + adxgdssuffix,
         maps='{study}/maps/chr{num}.map',

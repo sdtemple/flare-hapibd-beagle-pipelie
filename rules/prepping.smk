@@ -47,10 +47,10 @@ rule gds_to_vcf_ref:
     output:
         refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
     params:
-        script=str(config['change']['pipe']['scripts'] + '/gds_to_vcf.R'),
+        script=str(config['change']['pipe']['scripts'] + '/gds-to-vcf.R'),
     shell:
         '''
-        Rscript {params.script} {input.refgds} {output.refvcf}
+        Rscript --vanilla {params.script} {input.refgds} {output.refvcf}
         '''
 
 # convert gds to vcf for admixed samples
@@ -60,10 +60,10 @@ rule gds_to_vcf_adx:
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
     params:
-        script=str(config['change']['pipe']['scripts'] + '/gds_to_vcf.R'),
+        script=str(config['change']['pipe']['scripts'] + '/gds-to-vcf.R'),
     shell:
         '''
-        Rscript {params.script} {input.adxgds} {output.adxvcf}
+        Rscript --vanilla {params.script} {input.adxgds} {output.adxvcf}
         '''
 
 ### write samples text file

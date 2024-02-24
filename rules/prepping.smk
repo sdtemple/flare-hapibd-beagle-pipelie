@@ -76,7 +76,7 @@ rule write_ref_sample_names:
         refsample='{study}/gtdata/refpop/chr{num}.sample.txt',
     shell:
         '''
-        bcftools -l {input.refvcf} > {output.refsample}
+        bcftools query -l {input.refvcf} > {output.refsample}
         '''
 
 # write the sample names for admixed samples
@@ -87,5 +87,5 @@ rule write_adx_sample_names:
         adxsample='{study}/gtdata/adxpop/chr{num}.sample.txt',
     shell:
         '''
-        bcftools -l {input.adxvcf} > {output.adxsample}
+        bcftools query -l {input.adxvcf} > {output.adxsample}
         '''

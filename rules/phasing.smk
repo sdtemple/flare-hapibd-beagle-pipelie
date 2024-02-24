@@ -50,13 +50,15 @@ rule merge_vcfs:
         intersection='{study}/gtdata/all/chr{num}.intersection.txt'
     output:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
+    params:
+        minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
     shell:
         '''
         tabix -fp vcf {input.adxvcf}
         tabix -fp vc {input.refvcf}
-        bcftools merge -O z -R {input.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
-        rm {input.adxvcf} {input.refvcf}
-        rm {input.adxvcf}.tbi {input.refvcf}.tbi
+        bcftools merge -c {params.minmac}:nonmajor -O z -R {input.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
+        rm -p {input.adxvcf} {input.refvcf}
+        rm -p {input.adxvcf}.tbi {input.refvcf}.tbi
         '''
 
 # another phasing strategy
@@ -85,8 +87,8 @@ rule phase_all:
             out={params.allvcfout} \
             nthreads={params.thr} \
             excludesamples={params.excludesamples}
-        rm {input.allvcf}
-        rm {input.allvcf}.tbi
+        rm -p {input.allvcf}
+        rm -p {input.allvcf}.tbi
         '''
 
 # subset the phased files for admixed samples

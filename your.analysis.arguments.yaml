@@ -44,6 +44,12 @@ change:
     xmxmem: '240' # in gb
     threads: '16'
 
+  flare-parameters:
+    probs: 'false'
+
+  bcftools-parameters:
+    c-min-mac: '3'
+
 ### you should keep these fixed
 fixed:
 
@@ -80,7 +86,6 @@ fixed:
     min-maf: '0.005'
     min-mac: '50'
     gen: '10.0'
-    probs: 'false'
 
   # beagle.jar parameters
   # use the defaults

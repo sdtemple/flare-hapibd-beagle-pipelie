@@ -18,7 +18,7 @@ rule flare:
         gen=str(config['fixed']['flare-parameters']['gen']),
         minmaf=str(config['fixed']['flare-parameters']['min-maf']),
         minmac=str(config['fixed']['flare-parameters']['min-mac']),
-        probs=str(config['fixed']['flare-parameters']['probs']),
+        probs=str(config['change']['flare-parameters']['probs']),
         prog=str(config['fixed']['programs']['flare']),
         out='{study}/lai/chr{num}.rephased.flare.adx'
     shell:
@@ -34,6 +34,6 @@ rule flare:
             min-mac={params.minmac} \
             probs={params.probs} \
             nthreads={params.nthreads}
-        rm {input.allvcf}
-        rm {input.allvcf}.tbi 
+        rm -p {input.allvcf}
+        rm -p {input.allvcf}.tbi 
         '''

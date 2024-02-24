@@ -64,3 +64,12 @@ sdtemple@uw.edu
 If we publish this pipeline somewhere, I will point out the paper.
 
 For now, please acknowledge me in publication (smiley face)
+
+### Development
+
+- This repo currently uses snakemake 7.25.2
+    - May extend to version 8 as I develop familiarity in other repos
+- Implement other local ancestry inference packages
+- Robustness to SNP GDS versus SEQ GDS formats
+    - Currently assuming SEQ GDS
+    - Had issues with SNP GDS

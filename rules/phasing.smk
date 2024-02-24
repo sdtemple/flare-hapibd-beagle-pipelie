@@ -25,7 +25,7 @@ rule unphase_adx:
         rmphase=str(config['fixed']['programs']['remove-phase']),
     shell:
         '''
-        zcat {input.adxvcf} | java -jar {params.rmphase} 100395 | gzip -c > {output.adxvcf}
+        zcat {input.adxvcf} | java -jar {params.software}/{params.rmphase} 100395 | gzip -c > {output.adxvcf}
         '''
 
 # merge the unphased files

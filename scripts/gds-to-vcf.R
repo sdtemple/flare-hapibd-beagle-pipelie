@@ -7,7 +7,7 @@ args=commandArgs(trailingOnly=TRUE)
 filein=seqOpen(args[1])
 fileout=args[2]
 seqGDS2VCF(filein, fileout, info.var=character(0))
-seqClose(args[1])
+seqClose(filein)
 
 # # via SeqArray
 # tryCatch({

@@ -51,7 +51,7 @@ rule gds_to_vcf_ref:
     shell:
         '''
         Rscript --vanilla {params.script} {input.refgds} {output.refvcf}
-        rm -p {input.refgds}.seq.gds
+        rm -f {input.refgds}.seq.gds
         '''
 
 # convert gds to vcf for admixed samples
@@ -65,7 +65,7 @@ rule gds_to_vcf_adx:
     shell:
         '''
         Rscript --vanilla {params.script} {input.adxgds} {output.adxvcf}
-        rm -p {input.adxgds}.seq.gds
+        rm -f {input.adxgds}.seq.gds
         '''
 
 ### write samples text file

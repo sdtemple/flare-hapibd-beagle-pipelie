@@ -57,8 +57,8 @@ rule merge_vcfs:
         tabix -fp vcf {input.adxvcf}
         tabix -fp vc {input.refvcf}
         bcftools merge -c {params.minmac}:nonmajor -O z -R {input.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
-        rm -p {input.adxvcf} {input.refvcf}
-        rm -p {input.adxvcf}.tbi {input.refvcf}.tbi
+        rm -f {input.adxvcf} {input.refvcf}
+        rm -f {input.adxvcf}.tbi {input.refvcf}.tbi
         '''
 
 # another phasing strategy
@@ -87,8 +87,8 @@ rule phase_all:
             out={params.allvcfout} \
             nthreads={params.thr} \
             excludesamples={params.excludesamples}
-        rm -p {input.allvcf}
-        rm -p {input.allvcf}.tbi
+        rm -f {input.allvcf}
+        rm -f {input.allvcf}.tbi
         '''
 
 # subset the phased files for admixed samples

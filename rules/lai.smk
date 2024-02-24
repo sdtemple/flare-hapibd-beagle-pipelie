@@ -34,6 +34,6 @@ rule flare:
             min-mac={params.minmac} \
             probs={params.probs} \
             nthreads={params.nthreads}
-        rm -p {input.allvcf}
-        rm -p {input.allvcf}.tbi 
+        rm -f {input.allvcf}
+        rm -f {input.allvcf}.tbi 
         '''

@@ -55,11 +55,18 @@ rule merge_vcfs:
             {input.refvcf}.pos \
             {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt
         bcftools merge \
-            -c {params.minmac}:nonmajor \
             -O z \
             -R {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt \
-            -o {output.allvcf} \
+            -o {output.allvcf}.large \
             {input.adxvcf} {input.refvcf}
+        tabix -fp vcf {output.allvcf}.large
+        bcftools view \
+            -c {params.minmac}:nonmajor \ 
+            -O z \
+            -o {output.allvcf}.large \
+            {output.allvcf}
+        rm -f {output.allvcf}.large
+        rm -r {output.allvcf}.large.tbi
         '''
 
 # another phasing strategy
@@ -132,7 +139,7 @@ rule phase_ref:
         refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
-        refvcf='{study}/gtdata/adxpop/chr{num}.referencephased.vcf.gz',
+        adxvcf='{study}/gtdata/adxpop/chr{num}.referencephased.vcf.gz',
     params:
         software=str(config['change']['pipe']['software']),
         phase=str(config['fixed']['programs']['beagle']),
@@ -151,4 +158,12 @@ rule phase_ref:
             nthreads={params.thr} \
             excludesamples={params.excludesamples} \
             impute={params.impute}
+        mv {output.adxvcf} {output.adxvcf}.large
+        bcftools view \
+            -c {params.minmac}:nonmajor \ 
+            -O z \
+            -o {output.adxvcf}.large \
+            {output.adxvcf}
+        rm -f {output.adxvcf}.large
+        rm -r {output.adxvcf}.large.tbi
         '''

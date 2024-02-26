@@ -56,7 +56,9 @@ Make sure to change the `your-analysis-folder` setting.
 
 There are two phasing strategies:
 - Use the reference to phase the target sample (could introduce imputed values)
+    - This will likely create more markers in the target sample data
 - Rephase target and reference targets altogether
+    - This will likely create fewer markers in reference and target sample data
 
 You can call detect IBD segments by removing the comments in record_yaml rule.
 

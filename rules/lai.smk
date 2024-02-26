@@ -38,6 +38,10 @@ rule flare_rephased:
         rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.unphased.vcf.gz.tbi
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.unphased.vcf.gz
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.unphased.vcf.gz.tbi
+        rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.vcf.gz
+        rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.vcf.gz.tbi
+        rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.vcf.gz
+        rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.vcf.gz.tbi
         rm -f {input.allvcf}
         rm -f {input.allvcf}.tbi 
         '''
@@ -46,7 +50,7 @@ rule flare_rephased:
 # using flare software
 rule flare_reference_phased:
     input:
-        refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
+        refvcf='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
         adxvcf='{study}/gtdata/adxpop/chr{num}.referencephased.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
         refpanelmap=str(config['change']['existing-data']['ref-panel-map']),
@@ -75,6 +79,4 @@ rule flare_reference_phased:
             min-mac={params.minmac} \
             probs={params.probs} \
             nthreads={params.nthreads}
-        rm -f {input.refvcf}
-        rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.vcf.gz
         '''

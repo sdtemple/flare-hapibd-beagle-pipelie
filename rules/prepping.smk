@@ -68,6 +68,41 @@ rule gds_to_vcf_adx:
         rm -f {input.adxgds}.seq.gds
         '''
 
+# filter vcf files by minimum allele count
+rule shrink_vcf_adx:
+    input:
+        adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
+    output:
+        adxvcfshrink='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
+    params:
+        minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
+    shell:
+        '''
+        tabix -fp vcf {input.adxvcf}
+        bcftools view \
+            -c {params.minmac}:nonmajor \
+            -O z \
+            -o {output.adxvcfshrink} \
+            {input.adxvcf}
+        '''
+
+rule shrink_vcf_ref:
+    input:
+        refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
+    output:
+        refvcfshrink='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
+    params:
+        minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
+    shell:
+        '''
+        tabix -fp vcf {input.refvcf}
+        bcftools view \
+            -c {params.minmac}:nonmajor \
+            -O z \
+            -o {output.refvcfshrink} \
+            {input.refvcf}
+        '''
+
 ### write samples text file
 
 # write the sample names for reference samples

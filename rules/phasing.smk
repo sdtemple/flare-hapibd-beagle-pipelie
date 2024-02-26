@@ -5,7 +5,7 @@
 # remove the phase in reference samples
 rule unphase_ref:
     input:
-        refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
+        refvcf='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
     output:
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
     params:
@@ -21,7 +21,7 @@ rule unphase_ref:
 # remove phase in admixed samples
 rule unphase_adx:
     input:
-        adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
+        adxvcf='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
     params:
@@ -135,8 +135,8 @@ rule subset_phased_ref:
 
 rule phase_ref:
     input:
-        adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
-        refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
+        adxvcf='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
+        refvcf='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.referencephased.vcf.gz',

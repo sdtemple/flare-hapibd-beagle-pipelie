@@ -26,6 +26,7 @@ You can look at `dag-240223.png` to see what the pipeline looks like.
 1. `conda activate flare24`
 2. Modify the `your.analysis.arguments.yaml` file
     - See the `change:` settings
+    - You need to choose a reference sample!
 3. `snakemake -c1 -n`
     - This is a dry run to see what will be run
 4. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster " [your command]  " --configfile your.analysis.arguments.yaml --jobs XXX &`

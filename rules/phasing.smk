@@ -41,7 +41,6 @@ rule merge_vcfs:
     output:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
     params:
-        minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
         script=str(config['change']['pipe']['scripts'] + '/shared.py'),
     shell:
         '''
@@ -57,16 +56,8 @@ rule merge_vcfs:
         bcftools merge \
             -O z \
             -R {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt \
-            -o {output.allvcf}.large \
+            -o {output.allvcf} \
             {input.adxvcf} {input.refvcf}
-        tabix -fp vcf {output.allvcf}.large
-        bcftools view \
-            -c {params.minmac}:nonmajor \
-            -O z \
-            -o {output.allvcf}.large \
-            {output.allvcf}
-        rm -f {output.allvcf}.large
-        rm -r {output.allvcf}.large.tbi
         '''
 
 # another phasing strategy
@@ -158,12 +149,4 @@ rule phase_ref:
             nthreads={params.thr} \
             excludesamples={params.excludesamples} \
             impute={params.impute}
-        mv {output.adxvcf} {output.adxvcf}.large
-        bcftools view \
-            -c {params.minmac}:nonmajor \
-            -O z \
-            -o {output.adxvcf}.large \
-            {output.adxvcf}
-        rm -f {output.adxvcf}.large
-        rm -r {output.adxvcf}.large.tbi
         '''

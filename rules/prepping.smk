@@ -68,7 +68,8 @@ rule gds_to_vcf_adx:
         rm -f {input.adxgds}.seq.gds
         '''
 
-# filter vcf files by minimum allele count
+### filter vcf files by minimum allele count
+
 rule shrink_vcf_adx:
     input:
         adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',

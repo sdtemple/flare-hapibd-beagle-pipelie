@@ -11,7 +11,7 @@ rule hapibd_ref:
         refvcf='{study}/gtdata/refpop/chr{num}.rephased.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
-        refhap='{study}/gtdata/refpop/chr{num}.rephased.hapibd.ibd.gz',
+        refhap='{study}/ibdsegs/chr{num}.rephased.ref.hapibd.ibd.gz',
     params:
         software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),
@@ -19,7 +19,7 @@ rule hapibd_ref:
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
         maxgap=str(config['fixed']['hapibd-parameters']['max-gap']),
         prog=str(config['fixed']['programs']['hapibd']),
-        refout='{study}/ibdsegs/chr{num}.rephased.hapibd.ref',
+        refout='{study}/ibdsegs/chr{num}.rephased.ref.hapibd',
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
@@ -28,7 +28,7 @@ rule hapibd_ref:
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.refvcf} \
             map={input.chrmap} \
-            out {output.refout} \
+            out={params.refout} \
             min-output={params.minout} \
             min-extend={params.minextend} \
             min-seed={params.minseed} \
@@ -43,7 +43,7 @@ rule hapibd_adx:
         adxvcf='{study}/gtdata/adxpop/chr{num}.rephased.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
-        adxhap='{study}/ibdsegs/chr{num}.rephased.hapibd.ibd.gz',
+        adxhap='{study}/ibdsegs/chr{num}.rephased.adx.hapibd.ibd.gz',
     params:
         software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),
@@ -51,7 +51,7 @@ rule hapibd_adx:
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
         maxgap=str(config['fixed']['hapibd-parameters']['max-gap']),
         prog=str(config['fixed']['programs']['hapibd']),
-        adxout='{study}/ibdsegs/chr{num}.rephased.hapibd.adx',
+        adxout='{study}/ibdsegs/chr{num}.rephased.adx.hapibd',
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
@@ -60,7 +60,7 @@ rule hapibd_adx:
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.adxvcf} \
             map={input.chrmap} \
-            out {output.adxout} \
+            out={params.adxout} \
             min-output={params.minout} \
             min-extend={params.minextend} \
             min-seed={params.minseed} \

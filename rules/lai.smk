@@ -23,6 +23,7 @@ rule flare_rephased:
         out='{study}/lai/chr{num}.rephased.flare'
     shell:
         '''
+        mkdir -p {wildcards.study}/lai
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             ref={input.refvcf} \
             ref-panel={input.refpanelmap} \
@@ -68,6 +69,7 @@ rule flare_reference_phased:
         out='{study}/lai/chr{num}.referencephased.flare'
     shell:
         '''
+        mkdir -p {wildcards.study}/lai
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             ref={input.refvcf} \
             ref-panel={input.refpanelmap} \

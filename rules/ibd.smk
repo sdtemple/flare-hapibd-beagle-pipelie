@@ -25,6 +25,7 @@ rule hapibd_ref:
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
+        mkdir -p {wildcards.study}/ibdsegs
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.refvcf} \
             map={input.chrmap} \
@@ -57,6 +58,7 @@ rule hapibd_adx:
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
     shell:
         '''
+        mkdir -p {wildcards.study}/ibdsegs
         java -Xmx{params.xmxmem}g -jar {params.software}/{params.prog} \
             gt={input.adxvcf} \
             map={input.chrmap} \

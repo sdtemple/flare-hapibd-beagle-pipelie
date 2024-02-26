@@ -11,7 +11,7 @@ rule hapibd_ref:
         refvcf='{study}/gtdata/refpop/chr{num}.rephased.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
-        refhap='{study}/gtdata/refpop/chr{num}.rephased.hapibd.ref.ibd.gz',
+        refhap='{study}/gtdata/refpop/chr{num}.rephased.hapibd.ibd.gz',
     params:
         software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),
@@ -43,7 +43,7 @@ rule hapibd_adx:
         adxvcf='{study}/gtdata/adxpop/chr{num}.rephased.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
-        adxhap='{study}/ibdsegs/chr{num}.rephased.hapibd.adx.ibd.gz',
+        adxhap='{study}/ibdsegs/chr{num}.rephased.hapibd.ibd.gz',
     params:
         software=str(config['change']['pipe']['software']),
         minout=str(config['fixed']['hapibd-parameters']['min-output']),

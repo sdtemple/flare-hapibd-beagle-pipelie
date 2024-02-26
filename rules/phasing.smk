@@ -13,7 +13,9 @@ rule unphase_ref:
         rmphase=str(config['fixed']['programs']['remove-phase']),
     shell:
         '''
-        zcat {input.refvcf} | java -jar {params.software}/{params.rmphase} 30293 | bgzip -c > {output.refvcf}
+        zcat {input.refvcf} | \
+            java -jar {params.software}/{params.rmphase} 30293 | \
+            bgzip -c > {output.refvcf}
         '''
 
 # remove phase in admixed samples
@@ -27,7 +29,9 @@ rule unphase_adx:
         rmphase=str(config['fixed']['programs']['remove-phase']),
     shell:
         '''
-        zcat {input.adxvcf} | java -jar {params.software}/{params.rmphase} 30598 | bgzip -c > {output.adxvcf}
+        zcat {input.adxvcf} | \
+            java -jar {params.software}/{params.rmphase} 30598 | \
+            bgzip -c > {output.adxvcf}
         '''
 
 rule merge_vcfs:
@@ -46,8 +50,16 @@ rule merge_vcfs:
         bcftools query -f "%CHROM\t%POS\n" {input.adxvcf} > {input.adxvcf}.pos
         bcftools query -f "%CHROM\t%POS\n" {input.refvcf} > {input.refvcf}.pos
         mkdir -p {wildcards.study}/gtdata/all
-        python {params.script} {input.adxvcf}.pos {input.refvcf}.pos {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt
-        bcftools merge -c {params.minmac}:nonmajor -O z -R {output.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
+        python {params.script} \
+            {input.adxvcf}.pos \
+            {input.refvcf}.pos \
+            {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt
+        bcftools merge \
+            -c {params.minmac}:nonmajor \
+            -O z \
+            -R {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt \
+            -o {output.allvcf} \
+            {input.adxvcf} {input.refvcf}
         '''
 
 # another phasing strategy
@@ -88,7 +100,11 @@ rule subset_phased_adx:
     shell:
         '''
         tabix -fp vcf {input.allvcf}
-        bcftools view -S {input.adxsam} -O z -o {output.adxvcf} {input.allvcf}
+        bcftools view \
+            -S {input.adxsam} \
+            -O z \
+            -o {output.adxvcf} \
+            {input.allvcf}
         '''
 
 # subset the phased files for reference samples
@@ -101,7 +117,11 @@ rule subset_phased_ref:
     shell:
         '''
         tabix -fp vcf {input.allvcf}
-        bcftools view -S {input.refsam} -O z -o {output.refvcf} {input.allvcf}
+        bcftools view \
+            -S {input.refsam} \
+            -O z \
+            -o {output.refvcf} \
+            {input.allvcf}
         '''
 
 ### initial phasing

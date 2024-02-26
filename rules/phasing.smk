@@ -61,7 +61,7 @@ rule merge_vcfs:
             {input.adxvcf} {input.refvcf}
         tabix -fp vcf {output.allvcf}.large
         bcftools view \
-            -c {params.minmac}:nonmajor \ 
+            -c {params.minmac}:nonmajor \
             -O z \
             -o {output.allvcf}.large \
             {output.allvcf}
@@ -160,7 +160,7 @@ rule phase_ref:
             impute={params.impute}
         mv {output.adxvcf} {output.adxvcf}.large
         bcftools view \
-            -c {params.minmac}:nonmajor \ 
+            -c {params.minmac}:nonmajor \
             -O z \
             -o {output.adxvcf}.large \
             {output.adxvcf}

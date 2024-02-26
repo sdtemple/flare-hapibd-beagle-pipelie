@@ -109,13 +109,14 @@ rule subset_phased_ref:
 rule phase_ref:
     input:
         adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
+        refvcf='{study}/gtdata/refpop/chr{num}.vcf.gz',
         chrmap='{study}/maps/chr{num}.map',
     output:
         refvcf='{study}/gtdata/adxpop/chr{num}.referencephased.vcf.gz',
     params:
         software=str(config['change']['pipe']['software']),
         phase=str(config['fixed']['programs']['beagle']),
-        refvcfout='{study}/gtdata/refpop/chr{num}.referencephased',
+        adxvcfout='{study}/gtdata/adxpop/chr{num}.referencephased',
         xmx=config['change']['cluster-resources']['xmxmem'],
         thr=config['change']['cluster-resources']['threads'],
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
@@ -123,9 +124,10 @@ rule phase_ref:
     shell:
         '''
         java -Xmx{params.xmx}g -jar {params.software}/{params.phase} \
-            gt={input.refvcf} \
+            gt={input.adxvcf} \
+            ref={input.refvcf} \
             map={input.chrmap} \
-            out={params.refvcfout} \
+            out={params.adxvcfout} \
             nthreads={params.thr} \
             excludesamples={params.excludesamples} \
             impute={params.impute}

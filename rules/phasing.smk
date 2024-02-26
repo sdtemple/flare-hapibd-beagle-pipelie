@@ -119,6 +119,7 @@ rule phase_ref:
         xmx=config['change']['cluster-resources']['xmxmem'],
         thr=config['change']['cluster-resources']['threads'],
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
+        impute=str(config['fixed']['beagle-parameters']['impute']),
     shell:
         '''
         java -Xmx{params.xmx}g -jar {params.software}/{params.phase} \
@@ -126,5 +127,6 @@ rule phase_ref:
             map={input.chrmap} \
             out={params.refvcfout} \
             nthreads={params.thr} \
-            excludesamples={params.excludesamples}
+            excludesamples={params.excludesamples} \
+            impute={params.impute}
         '''

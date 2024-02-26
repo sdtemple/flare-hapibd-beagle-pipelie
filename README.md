@@ -49,7 +49,21 @@ For reproducibility, the `arguments.yaml` in the main folder says what you ran. 
 
 For robustness, you can create different `*.yaml` settings and see how results change. 
 
-Make sure to change the `your-analysis-folder` setting. 
+Make sure to change the `your-analysis-folder` setting.
+
+### Other notes
+
+There are two phasing strategies:
+- Use the reference to phase the target sample (could introduce imputed values)
+- Rephase target and reference targets altogether
+
+You can call detect IBD segments by removing the comments in record_yaml rule.
+
+Possible bugs:
+- Names are difference in CHROM column between reference and target samples
+- Running out of memory: increase cluster-resouces:xmxmem in yaml and terminal pass into `--cluster`
+- Reference sample is not phased
+- JAR file is corrupted: download a fresh version 
 
 ### Contact
 
@@ -69,7 +83,11 @@ For now, please acknowledge me in publication (smiley face)
 
 - This repo currently uses snakemake 7.25.2
     - May extend to version 8 as I develop familiarity in other repos
-- Implement other local ancestry inference packages
+- Implement other local ancestry inference software
+    - For example, MOSAIC from Salter-Townshend and Myers
+- Impute other phasing software
+    - For example, SHAPEIT
+    - Add in flexibility of Beagle parameters
 - Robustness to SNP GDS versus SEQ GDS formats
     - Currently assuming SEQ GDS
     - Had issues with SNP GDS

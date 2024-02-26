@@ -90,3 +90,4 @@ fixed:
   # beagle.jar parameters
   # use the defaults
   beagle-parameters:
+    impute: 'true'

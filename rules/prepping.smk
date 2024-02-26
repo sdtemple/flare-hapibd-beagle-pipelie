@@ -83,6 +83,7 @@ rule shrink_vcf_adx:
         tabix -fp vcf {input.adxvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
+            -v snps \
             -O z \
             -o {output.adxvcfshrink}.unannotated \
             {input.adxvcf}
@@ -109,6 +110,7 @@ rule shrink_vcf_ref:
         tabix -fp vcf {input.refvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
+            -v snps \
             -O z \
             -o {output.refvcfshrink}.unannotated \
             {input.refvcf}

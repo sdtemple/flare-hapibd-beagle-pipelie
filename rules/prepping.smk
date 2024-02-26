@@ -77,14 +77,23 @@ rule shrink_vcf_adx:
         adxvcfshrink='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
+        chrnamemap=str(config['change']['existing-data']['rename-chrs-map']),
     shell:
         '''
         tabix -fp vcf {input.adxvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
             -O z \
-            -o {output.adxvcfshrink} \
+            -o {output.adxvcfshrink}.unannotated \
             {input.adxvcf}
+        tabix -fp vcf {output.adxvcfshrink}.unannotated
+        bcftools annotate \
+            -O z \
+            -o {output.adxvcfshrink} \
+            --rename-chrs {params.chrnamemap} \
+            {output.adxvcfshrink}.unannotated
+        rm -f {output.adxvcfshrink}.unannotated
+        rm -f {output.adxvcfshrink}.unannotated.tbi
         '''
 
 rule shrink_vcf_ref:
@@ -94,14 +103,23 @@ rule shrink_vcf_ref:
         refvcfshrink='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
+        chrnamemap=str(config['change']['existing-data']['rename-chrs-map']),
     shell:
         '''
         tabix -fp vcf {input.refvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
             -O z \
-            -o {output.refvcfshrink} \
+            -o {output.refvcfshrink}.unannotated \
             {input.refvcf}
+        tabix -fp vcf {output.refvcfshrink}.unannotated
+        bcftools annotate \
+            -O z \
+            -o {output.refvcfshrink} \
+            --rename-chrs {params.chrnamemap} \
+            {output.refvcfshrink}.unannotated
+        rm -f {output.refvcfshrink}.unannotated
+        rm -f {output.refvcfshrink}.unannotated.tbi
         '''
 
 ### write samples text file

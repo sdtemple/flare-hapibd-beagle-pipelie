@@ -6,9 +6,9 @@ change:
   # parameters, subsample file
   want-data:
     # the location of all results
-    your-analysis-folder: '/path-to-study/eur'
+    your-analysis-folder: '/your-analysis-folder'
     # lowest chromosome number
-    chr-low: '21'
+    chr-low: '20'
     # highest chromosome numbers
     chr-high: '22'
 
@@ -23,6 +23,8 @@ change:
 
   # location of your data
   existing-data:
+    # rename-chrs
+    rename-chrs-map: 'rename-chrs/num-chrnum.txt'
     # these are reference sample vcfs
     ref-gds-folder: ''
     ref-gds-prefix: ''
@@ -41,8 +43,8 @@ change:
 
   # compute resources for your analysis
   cluster-resources:
-    xmxmem: '240' # in gb
-    threads: '16'
+    xmxmem: '100' # in gb
+    threads: '12'
 
   flare-parameters:
     probs: 'false'
@@ -90,4 +92,4 @@ fixed:
   # beagle.jar parameters
   # use the defaults
   beagle-parameters:
-    impute: 'true'
+    impute: 'false'

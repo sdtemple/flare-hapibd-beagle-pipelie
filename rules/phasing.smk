@@ -36,7 +36,6 @@ rule merge_vcfs:
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
     output:
         allvcf='{study}/gtdata/all/chr{num}.unphased.vcf.gz',
-        intersection='{study}/gtdata/all/chr{num}.intersection.Rfile.txt'
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
         script=str(config['change']['pipe']['scripts'] + '/shared.py'),
@@ -44,9 +43,10 @@ rule merge_vcfs:
         '''
         tabix -fp vcf {input.adxvcf}
         tabix -fp vcf {input.refvcf}
-        bcftools query -f "%CHROM\t%POS\n" > {input.adxvcf}.pos
-        bcftools query -f "%CHROM\t%POS\n" > {input.refvcf}.pos
-        python {params.script} {input.adxvcf}.pos {input.refvcf}.pos {output.intersection}
+        bcftools query -f "%CHROM\t%POS\n" {input.adxvcf} > {input.adxvcf}.pos
+        bcftools query -f "%CHROM\t%POS\n" {input.refvcf} > {input.refvcf}.pos
+        mkdir -p {wildcards.study}/gtdata/all
+        python {params.script} {input.adxvcf}.pos {input.refvcf}.pos {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt
         bcftools merge -c {params.minmac}:nonmajor -O z -R {output.intersection} -o {output.allvcf} {input.adxvcf} {input.refvcf}
         '''
 

@@ -58,6 +58,7 @@ rule merge_vcfs:
             -R {wildcards.study}/gtdata/all/chr{wildcards.num}.intersection.Rfile.txt \
             -o {output.allvcf} \
             {input.adxvcf} {input.refvcf}
+        rm -f {input.adxvcf}.pos {input.refvcf}.pos
         '''
 
 # another phasing strategy
@@ -103,6 +104,7 @@ rule subset_phased_adx:
             -O z \
             -o {output.adxvcf} \
             {input.allvcf}
+        rm -f {input.adxsam}
         '''
 
 # subset the phased files for reference samples
@@ -120,6 +122,7 @@ rule subset_phased_ref:
             -O z \
             -o {output.refvcf} \
             {input.allvcf}
+        rm -f {input.refsam}
         '''
 
 ### initial phasing

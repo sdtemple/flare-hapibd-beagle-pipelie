@@ -39,6 +39,7 @@ rule flare_rephased:
         rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.unphased.vcf.gz.tbi
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.unphased.vcf.gz
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.unphased.vcf.gz.tbi
+        rm -f {wildcards.study}/gtdata/all/chr{wildcards.num}.unphased.vcf.gz
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.vcf.gz
         rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.vcf.gz.tbi
         rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.vcf.gz
@@ -81,4 +82,6 @@ rule flare_reference_phased:
             min-mac={params.minmac} \
             probs={params.probs} \
             nthreads={params.nthreads}
+        rm -f {wildcards.study}/gtdata/refpop/chr{wildcards.num}.shrink.vcf.gz
+        rm -f {wildcards.study}/gtdata/adxpop/chr{wildcards.num}.shrink.vcf.gz
         '''

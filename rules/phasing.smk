@@ -79,6 +79,7 @@ rule phase_all:
         xmx=config['change']['cluster-resources']['xmxmem'],
         thr=config['change']['cluster-resources']['threads'],
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
+        window=str(config['fixed']['beagle-parameters']['window']),
     shell:
         '''
         java -Xmx{params.xmx}g -jar {params.software}/{params.phase} \
@@ -86,7 +87,8 @@ rule phase_all:
             map={input.chrmap} \
             out={params.allvcfout} \
             nthreads={params.thr} \
-            excludesamples={params.excludesamples}
+            excludesamples={params.excludesamples} \
+            window={params.window}
         '''
 
 # subset the phased files for admixed samples
@@ -142,6 +144,7 @@ rule phase_ref:
         thr=config['change']['cluster-resources']['threads'],
         excludesamples=str(config['change']['existing-data']['exclude-samples']),
         impute=str(config['fixed']['beagle-parameters']['impute']),
+        window=str(config['fixed']['beagle-parameters']['window']),
     shell:
         '''
         java -Xmx{params.xmx}g -jar {params.software}/{params.phase} \
@@ -151,5 +154,6 @@ rule phase_ref:
             out={params.adxvcfout} \
             nthreads={params.thr} \
             excludesamples={params.excludesamples} \
-            impute={params.impute}
+            impute={params.impute} \
+            window={params.window}
         '''

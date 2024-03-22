@@ -93,3 +93,4 @@ fixed:
   # use the defaults
   beagle-parameters:
     impute: 'false'
+    window: '40.0'

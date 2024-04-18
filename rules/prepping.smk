@@ -61,10 +61,20 @@ rule gds_to_vcf_adx:
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.vcf.gz',
     params:
-        script=str(config['change']['pipe']['scripts'] + '/gds-to-vcf.R'),
+        script=str(config['change']['pipe']['scripts'] + '/subset-gds.R'),
+        keepsamples=str(config['change']['existing-data']['keep-samples']),
+        minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
+        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
+        minmis=str(config['change']['bcftools-parameters']['missingness']),
     shell:
         '''
-        Rscript --vanilla {params.script} {input.adxgds} {output.adxvcf}
+        Rscript --vanilla {params.script} \
+            {input.adxgds} \
+            {params.keepsamples} \
+            {params.minmac} \
+            {params.minmaf} \
+            {params.minmis} \
+            {wildcards.study}/gtdata/adxpop/chr{wildcards.num}
         rm -f {input.adxgds}.seq.gds
         '''
 
@@ -77,12 +87,14 @@ rule shrink_vcf_adx:
         adxvcfshrink='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
-        chrnamemap=str(config['change']['existing-data']['rename-chrs-map']),
+        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
+        chrnamemap=str(config['change']['existing-data']['rename-chrs-map-adx']),
     shell:
         '''
         tabix -fp vcf {input.adxvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
+            -q {params.minmaf}:nonmajor \
             -v snps \
             -O z \
             -o {output.adxvcfshrink}.unannotated \
@@ -104,12 +116,14 @@ rule shrink_vcf_ref:
         refvcfshrink='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
-        chrnamemap=str(config['change']['existing-data']['rename-chrs-map']),
+        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
+        chrnamemap=str(config['change']['existing-data']['rename-chrs-map-ref']),
     shell:
         '''
         tabix -fp vcf {input.refvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
+            -q {params.minmaf}:nonmajor \
             -v snps \
             -O z \
             -o {output.refvcfshrink}.unannotated \

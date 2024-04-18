@@ -24,7 +24,8 @@ change:
   # location of your data
   existing-data:
     # rename-chrs
-    rename-chrs-map: 'rename-chrs/num-chrnum.txt'
+    rename-chrs-map-adx: 'rename-chrs/num-chrnum.txt'
+    rename-chrs-map-ref: 'rename-chrs/num-chrnum.txt'
     # these are reference sample vcfs
     ref-gds-folder: ''
     ref-gds-prefix: ''
@@ -40,6 +41,7 @@ change:
     maps-suffix: '.GRCh38.map'
     # markers or samples to exclude based on prelim analysis
     exclude-samples: 'excludesamples.txt'
+    keep-samples: 'samples.txt'
 
   # compute resources for your analysis
   cluster-resources:
@@ -51,6 +53,8 @@ change:
 
   bcftools-parameters:
     c-min-mac: '3'
+    missingness: '0.05'
+    c-min-maf: '0.005'
 
 ### you should keep these fixed
 fixed:

@@ -9,14 +9,20 @@ rule unphase_ref:
     output:
         refvcf='{study}/gtdata/refpop/chr{num}.unphased.vcf.gz',
     params:
-        software=str(config['change']['pipe']['software']),
-        rmphase=str(config['fixed']['programs']['remove-phase']),
+        script=str(config['change']['pipe']['scripts'])+'/remove-phase.py',
     shell:
         '''
-        zcat {input.refvcf} | \
-            java -jar {params.software}/{params.rmphase} 30293 | \
-            bgzip -c > {output.refvcf}
+        python {params.script} {input.refvcf} {output.refvcf}
         '''
+    # params:
+    #     software=str(config['change']['pipe']['software']),
+    #     rmphase=str(config['fixed']['programs']['remove-phase']),
+    # shell:
+    #     '''
+    #     zcat {input.refvcf} | \
+    #         java -jar {params.software}/{params.rmphase} 30293 | \
+    #         bgzip -c > {output.refvcf}
+    #     '''
 
 # remove phase in admixed samples
 rule unphase_adx:
@@ -25,14 +31,20 @@ rule unphase_adx:
     output:
         adxvcf='{study}/gtdata/adxpop/chr{num}.unphased.vcf.gz',
     params:
-        software=str(config['change']['pipe']['software']),
-        rmphase=str(config['fixed']['programs']['remove-phase']),
+        script=str(config['change']['pipe']['scripts'])+'/remove-phase.py',
     shell:
         '''
-        zcat {input.adxvcf} | \
-            java -jar {params.software}/{params.rmphase} 30598 | \
-            bgzip -c > {output.adxvcf}
+        python {params.script} {input.adxvcf} {output.adxvcf}
         '''
+    # params:
+    #     software=str(config['change']['pipe']['software']),
+    #     rmphase=str(config['fixed']['programs']['remove-phase']),
+    # shell:
+    #     '''
+    #     zcat {input.adxvcf} | \
+    #         java -jar {params.software}/{params.rmphase} 30598 | \
+    #         bgzip -c > {output.adxvcf}
+    #     '''
 
 rule merge_vcfs:
     input:

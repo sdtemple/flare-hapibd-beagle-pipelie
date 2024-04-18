@@ -77,8 +77,8 @@ rule record_yaml:
         [macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],
         [macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],
         # local ancestry inference
-        [macro+'/ibdsegs/chr'+str(i)+'.rephased.ref.hapibd.ibd.gz' for i in range(low,high+1)],
-        [macro+'/ibdsegs/chr'+str(i)+'.rephased.adx.hapibd.ibd.gz' for i in range(low,high+1)],
+        # [macro+'/ibdsegs/chr'+str(i)+'.rephased.ref.hapibd.ibd.gz' for i in range(low,high+1)],
+        # [macro+'/ibdsegs/chr'+str(i)+'.rephased.adx.hapibd.ibd.gz' for i in range(low,high+1)],
         # ibd segment detection
     output:
         yaml=macro+'/arguments.yaml',

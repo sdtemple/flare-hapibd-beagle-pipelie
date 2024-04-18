@@ -6,10 +6,9 @@ args <- commandArgs(trailingOnly=T)
 input.file <- args[1]
 subset.file <- args[2]
 mac <- as.integer(args[3])
-maf <- as.numeric(args[4])
-missingness <- as.numeric(args[5])
+missingness <- as.numeric(args[4])
+outputfileprefix <- args[5]
 
-outputfileprefix <- args[6]
 outgds <- paste(outputfileprefix,".gds",sep="")
 outvcf <- paste(outputfileprefix,".vcf.gz",sep="")
 outsum <- paste(outputfileprefix,".summary.stats.tsv",sep="")
@@ -20,7 +19,7 @@ outsum <- paste(outputfileprefix,".summary.stats.tsv",sep="")
 ### summary stats, courtesy liz blue ###
 
 sumstat <- data.frame(variant.id  = seqGetData(input.file, "variant.id"), mac = seqAlleleCount(input.file, ref.allele=0L, minor=T), maf = seqAlleleFreq(input.file, ref.allele=0L, minor=T), miss = seqMissing(input.file, TRUE))
-my.variants <- subset(sumstat$variant.id, sumstat$mac >= mac, sumstat$maf >= maf & sumstat$miss < missingness)
+my.variants <- subset(sumstat$variant.id, sumstat$mac >= mac, sumstat$miss < missingness)
 write.table(sumstat, file=outsum, sep="\t", row.names=F)
 # writeLines(my.variants, con=outvar)
 # saveRDS(my.variants, file=outvar)

@@ -54,7 +54,6 @@ change:
   bcftools-parameters:
     c-min-mac: '3'
     missingness: '0.05'
-    c-min-maf: '0.005'
 
 ### you should keep these fixed
 fixed:

@@ -64,7 +64,6 @@ rule gds_to_vcf_adx:
         script=str(config['change']['pipe']['scripts'] + '/subset-gds.R'),
         keepsamples=str(config['change']['existing-data']['keep-samples']),
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
-        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
         minmis=str(config['change']['bcftools-parameters']['missingness']),
     shell:
         '''
@@ -72,7 +71,6 @@ rule gds_to_vcf_adx:
             {input.adxgds} \
             {params.keepsamples} \
             {params.minmac} \
-            {params.minmaf} \
             {params.minmis} \
             {wildcards.study}/gtdata/adxpop/chr{wildcards.num}
         rm -f {input.adxgds}.seq.gds
@@ -94,7 +92,6 @@ rule shrink_vcf_adx:
         tabix -fp vcf {input.adxvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
-            -q {params.minmaf}:nonmajor \
             -v snps \
             -O z \
             -o {output.adxvcfshrink}.unannotated \
@@ -123,7 +120,6 @@ rule shrink_vcf_ref:
         tabix -fp vcf {input.refvcf}
         bcftools view \
             -c {params.minmac}:nonmajor \
-            -q {params.minmaf}:nonmajor \
             -v snps \
             -O z \
             -o {output.refvcfshrink}.unannotated \

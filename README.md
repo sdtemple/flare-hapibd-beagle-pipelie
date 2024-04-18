@@ -1,4 +1,4 @@
-## Pipeline for local ancestry & IBD inference, 
+# Pipeline for local ancestry & IBD inference, 
 
 This pipeline performs phasing, IBD segment detection, and local ancestry inference for an analysis of target admixed samples.
 
@@ -6,7 +6,7 @@ This pipeline performs phasing, IBD segment detection, and local ancestry infere
 
 You can look at `dag-*` files to see what the pipeline looks like / looked like.
 
-### Installation
+## Installation
 
 1. `git clone https://github.com/sdtemple/flare-hapibd-beagle-pipeline`
 2. Install `java` so as to be able to run `java -jar` on terminal
@@ -15,7 +15,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
     - I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
     - In which case, `mamba env create -f conda-env.yml`
 
-### Requirements
+## Requirements
 
 - GDS files for each chromosome
     - Reference samples
@@ -23,7 +23,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
 - Map between reference sample IDs to their reference panel
     - Point to this file in your YAML settings
 
-### Run the pipeline 
+## Run the pipeline 
 
 1. `conda activate flare24`
 2. Modify the `your.analysis.arguments.yaml` file
@@ -52,25 +52,9 @@ For reproducibility, the `arguments.yaml` in the main folder says what you ran. 
 
 For robustness, you can create different `*.yaml` settings and see how results change. 
 
-Make sure to change the `your-analysis-folder` setting.
+Make sure to change the `your-analysis-folder` setting. 
 
-### Other notes
-
-There are two phasing strategies:
-- Use the reference to phase the target sample (could introduce imputed values)
-    - This will likely create more markers in the target sample data
-- Rephase target and reference targets altogether
-    - This will likely create fewer markers in reference and target sample data
-
-You can call detect IBD segments by removing the comments in record_yaml rule.
-
-Possible bugs:
-- Names are difference in CHROM column between reference and target samples
-- Running out of memory: increase cluster-resouces:xmxmem in yaml and terminal pass into `--cluster`
-- Reference sample is not phased
-- JAR file is corrupted: download a fresh version 
-
-### Contact
+## Contact
 
 Seth D. Temple
 
@@ -78,13 +62,13 @@ sdtemple.github.io
 
 sdtemple@uw.edu
 
-### Citation
+## Citation
 
 If we publish this pipeline somewhere, I will point out the paper.
 
 For now, please acknowledge me in publication (smiley face)
 
-### Development
+## Development
 
 - This repo currently uses snakemake 7.25.2
     - May extend to version 8 as I develop familiarity in other repos
@@ -94,6 +78,31 @@ For now, please acknowledge me in publication (smiley face)
     - For example, SHAPEIT
 - Give instructions for how to run with slurm workflow manager
 - Give instructions about if your initial data is GDS or VCF
+
+## Other notes
+
+### Possible bugs and errors
+
+- Running out of memory: increase cluster-resouces:xmxmem in yaml and terminal pass into `--cluster`
+- Names are different in CHROM column between reference and target samples
+- Reference sample is not phased
+    - Comment out `[macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],` in the rule `record_yaml`
+- JAR file is corrupted: download a fresh version
+    - Changed the `remove-phase.jar` to `remove-phase.py`
+
+### Phasing strategies
+
+There are two phasing strategies:
+- Use the reference to phase the target sample (could introduce imputed values)
+    - This will likely create more markers in the target sample data
+- Rephase target and reference targets altogether
+    - This will likely create fewer markers in reference and target sample data
+
+### A pilot study on small chromosomes
+
+Your chromosome files should be named numerically, e.g., chr1 all the way to chr22. If you want to study some sex chromosome or otherwise, use symbolic links to say call it chr23.
+
+In your YAML configuration file, the chromosome files between `chr-low` to `chr-high` will be analyzed. Use a subset of the smallest chromosomes to test the pipeline, e.g., `chr-low: "21"` and `chr-high: "22"`. Then, to run the entire analysis, use `chr-low: "1"` and `chr-high: "22"`.
 
 ### Initiating with *.vcf.gz files instead of *.gds files
 
@@ -129,8 +138,6 @@ Sometimes the recombination map and the VCF/GDS data have different names for th
 - The second column is the new name, the name of the chromosome in the map file.
 - There are separate YAML options for the reference and admixed target samples. 
 
-### A pilot study on small chromosomes
+### Calling IBD segments
 
-Your chromosome files should be named numerically, e.g., chr1 all the way to chr22. If you want to study some sex chromosome or otherwise, use symbolic links to say call it chr23.
-
-In your YAML configuration file, the chromosome files between `chr-low` to `chr-high` will be analyzed. Use a subset of the smallest chromosomes to test the pipeline, e.g., `chr-low: "21"` and `chr-high: "22"`. Then, to run the entire analysis, use `chr-low: "1"` and `chr-high: "22"`.
+You can call detect IBD segments by removing the comments in `record_yaml` rule.

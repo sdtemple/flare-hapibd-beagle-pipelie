@@ -8,7 +8,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
 
 ## Installation
 
-1. `git clone https://github.com/sdtemple/flare-hapibd-beagle-pipeline`
+1. `git clone https://github.com/sdtemple/flare-pipeline`
 2. Install `java` so as to be able to run `java -jar` on terminal
 3. `bash get-software.sh software` (requires `wget`)
 4. `mamba env create -f conda-env.yml`

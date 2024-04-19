@@ -1,6 +1,6 @@
 # Pipeline for local ancestry & IBD inference, 
 
-This pipeline performs phasing, IBD segment detection, and local ancestry inference for an analysis of target admixed samples.
+This pipeline performs phasing and local ancestry inference for an analysis of target admixed samples. You can also call IBD segments.
 
 <img src="dag-240418.png" align="center" width="600px"/>
 
@@ -14,6 +14,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
 4. `mamba env create -f conda-env.yml`
     - I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
     - In which case, `mamba env create -f conda-env.yml`
+    - See `misc/installing-mamba.md` for further support
 
 ## Requirements
 
@@ -23,9 +24,15 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
 - Map between reference sample IDs to their reference panel
     - Point to this file in your YAML settings
 
+To subset or manipulate VCFs and GDSs:
+- `scripts/vcf-to-gds.R`
+- `scripts/get-sample-ids-gds.R`
+- `scripts/subset-gds.R`: implements subsetting, and minor allele count and missingness filters
+    - Use MAC 1 and missingness 0.00 if you only want to subset samples
+
 ## Run the pipeline 
 
-1. `conda activate flare24`
+1. `mamba activate flare24`
 2. Modify the `your.analysis.arguments.yaml` file
     - See the `change:` settings
     - You need to choose a reference sample!
@@ -35,7 +42,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
     - Other useful `snakemake` commands
         - `--rerun-incomplete`
         - `--rerun-triggers mtime`
-        - `--force-all`
+        - `--force-all` ???
     - Commands for `qsub`
         - `--cluster "qsub -q your-queue.q -m e -M your.email@uni.edu -pe local XXX -l h_vmem=XXXG -V" `
         - "-V" is important to pass in your conda environment!
@@ -71,9 +78,14 @@ sdtemple@uw.edu
 
 ## Citation
 
-If we publish this pipeline somewhere, I will point out the paper.
+It takes time to make these pipelines. I am a early career researcher and appreciate credit. (smiley facy) Please:
+- At time of publication, check this repo to see if we have a paper introducing the pipeline.
+    - (If we publish this pipeline somewhere, I will point out the paper.)
+- Acknowledge me in publication.
 
-For now, please acknowledge me in publication (smiley face)
+You should be citing (see `get-software.sh`):
+- `beagle`
+- `flare`
 
 ## Development
 
@@ -100,9 +112,9 @@ For now, please acknowledge me in publication (smiley face)
 
 There are two phasing strategies:
 - Use the reference to phase the target sample (could introduce imputed values)
-    - This will likely create more markers in the target sample data
+    - This may result in more markers in the target sample data
+    - You can also use imputed markers if you change the flag in Beagle
 - Rephase target and reference targets altogether
-    - This will likely create fewer markers in reference and target sample data
 
 ### A pilot study on small chromosomes
 
@@ -147,3 +159,18 @@ Sometimes the recombination map and the VCF/GDS data have different names for th
 ### Calling IBD segments
 
 You can call detect IBD segments by removing the comments in `record_yaml` rule.
+- This may be useful if you want to do:
+    - IBD mapping in conjunction w/ local ancestry analyses
+    - Relatedness inference using `IBDkin` (look for github repo)
+
+### Limited cluster resources
+
+- See the Beagle paper about manipulating window size
+    - Impacts memory and runtime
+    - The greatest concern is memory in large samples
+    - https://www.cell.com/ajhg/fulltext/S0002-9297(21)00304-9
+- Subset the target samples and implement reference phasing
+    1. Make subsets of the target samples
+    2. Make separate configuration YAML files w/ different `keep-samples` text files
+    3. Comment out this: `[macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],`
+    4. Keep this: `[macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],`

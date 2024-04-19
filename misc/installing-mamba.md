@@ -7,7 +7,13 @@ March 26, 2024
 # exit out of the cluster
 # sign back into the cluster
 3. `mamba` # check that mamba works
+    - You may need to `vim .bashrc`.
+    - Put in a line `alias mamba="/path/to/miniforge3/bin/mamba"`.
+    - `source .bashrc`
+    - Sign out / exit terminal
+    - Sign back in / begin terminal 
 4. `python` # check that python works
+    - You may need to do the same for a python version under `/path/to/miniforge3/bin/`.
 5. `exit()`
 # move to the git repo folder
 6. `mamba env create -f conda-env.yaml # make environment`

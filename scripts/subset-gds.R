@@ -39,8 +39,8 @@ print("subset the gds file by sample and variant")
 seqGDS2VCF(gdsfile,outvcf,info.var=character(0))
 print("saved the filtered vcf file")
 
-seqExport(gdsfile, outgds)
-print("saved the filtered gds file")
+# seqExport(gdsfile, outgds)
+# print("saved the filtered gds file")
 
 seqClose(gdsfile)
 

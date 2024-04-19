@@ -11,7 +11,7 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
 1. `git clone https://github.com/sdtemple/flare-hapibd-beagle-pipeline`
 2. Install `java` so as to be able to run `java -jar` on terminal
 3. `bash get-software.sh software` (requires `wget`)
-4. `conda env create -f conda-env.yml`
+4. `mamba env create -f conda-env.yml`
     - I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
     - In which case, `mamba env create -f conda-env.yml`
 
@@ -42,7 +42,14 @@ You can look at `dag-*` files to see what the pipeline looks like / looked like.
         - "-pe local XXX" is how many threads you will use
         - You don't have to send emails to yourself if you don't want to
     - Commands for `slurm`
-        - TBD
+        - `--cluster "sbatch [options]" `
+            - "-e ~/your-logs/{rule}.e" and "-o ~/your-logs/{rule}.o" will control where stderr, stdout go
+            - "--cpus-per-task=XX" says how many cpus per job
+            - "--nodes=XX" says how many nodes per job
+            - "--partition=SOMENAME" says which partitions to use
+            - "--mem=XX" says how much memory in MB
+            - "--mail-type=ALL" and "--mail-user=your.email@university.edu" sends mail to you when a job finishes
+            - "--job-name={rule}"
     - You can sign out of cluster. `no hup ... &` will keep this as an ongoing process until complete
 5. Your LAI results in a `lai/` folder
 6. Your IBD results in a `ibdsegs/` folder
@@ -76,8 +83,7 @@ For now, please acknowledge me in publication (smiley face)
     - For example, MOSAIC from Salter-Townshend and Myers
 - Impute other phasing software
     - For example, SHAPEIT
-- Give instructions for how to run with slurm workflow manager
-- Give instructions about if your initial data is GDS or VCF
+- Initial data can be `*.gds` OR `*.vcf`
 
 ## Other notes
 
@@ -104,7 +110,7 @@ Your chromosome files should be named numerically, e.g., chr1 all the way to chr
 
 In your YAML configuration file, the chromosome files between `chr-low` to `chr-high` will be analyzed. Use a subset of the smallest chromosomes to test the pipeline, e.g., `chr-low: "21"` and `chr-high: "22"`. Then, to run the entire analysis, use `chr-low: "1"` and `chr-high: "22"`.
 
-### Initiating with *.vcf.gz files instead of *.gds files
+<!-- ### Initiating with *.vcf.gz files instead of *.gds files
 
 The pipeline starts with GDS files for each chromosome. It converts these to VCF files.
 
@@ -122,7 +128,7 @@ Use `ln -s initial/folder/location/chr*.vcf.gz your/analysis/folder/gtdata/adxpo
 
 The minor allele count and minor allele frequency filters are applied redundantly:
 - In the GDS to VCF conversion
-- And shrinking the VCF if you start from VCF
+- And shrinking the VCF if you start from VCF -->
 
 ### keep-samples and exclude-samples arguments
 

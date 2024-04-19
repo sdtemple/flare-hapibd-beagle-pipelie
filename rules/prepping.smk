@@ -85,7 +85,6 @@ rule shrink_vcf_adx:
         adxvcfshrink='{study}/gtdata/adxpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
-        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
         chrnamemap=str(config['change']['existing-data']['rename-chrs-map-adx']),
     shell:
         '''

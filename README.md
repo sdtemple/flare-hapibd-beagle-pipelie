@@ -68,35 +68,6 @@ For robustness, you can create different `*.yaml` settings and see how results c
 
 Make sure to change the `your-analysis-folder` setting. 
 
-## Contact
-
-Seth D. Temple
-
-sdtemple.github.io
-
-sdtemple@uw.edu
-
-## Citation
-
-It takes time to make these pipelines. I am a early career researcher and appreciate credit. (smiley facy) Please:
-- At time of publication, check this repo to see if we have a paper introducing the pipeline.
-    - (If we publish this pipeline somewhere, I will point out the paper.)
-- Acknowledge me in publication.
-
-You should be citing (see `get-software.sh`):
-- `beagle`
-- `flare`
-
-## Development
-
-- This repo currently uses snakemake 7.25.2
-    - May extend to version 8 as I develop familiarity in other repos
-- Implement other local ancestry inference software
-    - For example, MOSAIC from Salter-Townshend and Myers
-- Impute other phasing software
-    - For example, SHAPEIT
-- Initial data can be `*.gds` OR `*.vcf`
-
 ## Other notes
 
 ### Possible bugs and errors
@@ -174,3 +145,32 @@ You can call detect IBD segments by removing the comments in `record_yaml` rule.
     2. Make separate configuration YAML files w/ different `keep-samples` text files
     3. Comment out this: `[macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],`
     4. Keep this: `[macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],`
+
+## Development
+
+- This repo currently uses snakemake 7.25.2
+    - May extend to version 8 as I develop familiarity in other repos
+- Implement other local ancestry inference software
+    - For example, MOSAIC from Salter-Townshend and Myers
+- Impute other phasing software
+    - For example, SHAPEIT
+- Initial data can be `*.gds` OR `*.vcf`
+
+## Citation
+
+It takes time to make these pipelines. I am a early career researcher and appreciate credit. (smiley facy) Please:
+- At time of publication, check this repo to see if we have a paper introducing the pipeline.
+    - (If we publish this pipeline somewhere, I will point out the paper.)
+- Acknowledge me in publication.
+
+You should be citing (see `get-software.sh`):
+- `beagle`
+- `flare`
+
+## Contact
+
+Seth D. Temple
+
+sdtemple.github.io
+
+sdtemple@uw.edu

@@ -12,7 +12,9 @@ rule unphase_ref:
         script=str(config['change']['pipe']['scripts'])+'/remove-phase.py',
     shell:
         '''
-        python {params.script} {input.refvcf} {output.refvcf}
+        python {params.script} {input.refvcf} {output.refvcf}.temp
+        zcat {output.refvcf}.temp | bgzip -c > {output.refvcf}
+        rm -f {output.adxvcf}.temp
         '''
     # params:
     #     software=str(config['change']['pipe']['software']),
@@ -34,7 +36,9 @@ rule unphase_adx:
         script=str(config['change']['pipe']['scripts'])+'/remove-phase.py',
     shell:
         '''
-        python {params.script} {input.adxvcf} {output.adxvcf}
+        python {params.script} {input.adxvcf} {output.adxvcf}.temp
+        zcat {output.adxvcf}.temp | bgzip -c > {output.adxvcf}
+        rm -f {output.adxvcf}.temp
         '''
     # params:
     #     software=str(config['change']['pipe']['software']),

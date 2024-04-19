@@ -14,7 +14,7 @@ rule unphase_ref:
         '''
         python {params.script} {input.refvcf} {output.refvcf}.temp
         zcat {output.refvcf}.temp | bgzip -c > {output.refvcf}
-        rm -f {output.adxvcf}.temp
+        rm -f {output.refvcf}.temp
         '''
     # params:
     #     software=str(config['change']['pipe']['software']),

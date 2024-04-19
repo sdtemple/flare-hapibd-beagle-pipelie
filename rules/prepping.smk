@@ -112,7 +112,6 @@ rule shrink_vcf_ref:
         refvcfshrink='{study}/gtdata/refpop/chr{num}.shrink.vcf.gz',
     params:
         minmac=str(config['change']['bcftools-parameters']['c-min-mac']),
-        minmaf=str(config['change']['bcftools-parameters']['c-min-maf']),
         chrnamemap=str(config['change']['existing-data']['rename-chrs-map-ref']),
     shell:
         '''

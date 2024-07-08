@@ -75,14 +75,16 @@ include: 'rules/phasing.smk'
 rule record_yaml:
     input:
         [macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],
-        [macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],
+        # [macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],
         # local ancestry inference
         [macro+'/gtdata/adxpop/chr'+str(i)+'.referencephased.vcf.gz' for i in range(low,high+1)],
-        [macro+'/gtdata/adxpop/chr'+str(i)+'.rephased.vcf.gz' for i in range(low,high+1)],
-        [macro+'/gtdata/refpop/chr'+str(i)+'.rephased.vcf.gz' for i in range(low,high+1)],
+        # [macro+'/gtdata/adxpop/chr'+str(i)+'.rephased.vcf.gz' for i in range(low,high+1)],
+        # [macro+'/gtdata/refpop/chr'+str(i)+'.rephased.vcf.gz' for i in range(low,high+1)],
         # phasing
-        [macro+'/ibdsegs/chr'+str(i)+'.rephased.ref.hapibd.ibd.gz' for i in range(low,high+1)],
-        [macro+'/ibdsegs/chr'+str(i)+'.rephased.adx.hapibd.ibd.gz' for i in range(low,high+1)],
+        # [macro+'/ibdsegs/chr'+str(i)+'.referencephased.ref.hapibd.ibd.gz' for i in range(low,high+1)],
+        [macro+'/ibdsegs/chr'+str(i)+'.referencephased.adx.hapibd.ibd.gz' for i in range(low,high+1)],
+        # [macro+'/ibdsegs/chr'+str(i)+'.rephased.ref.hapibd.ibd.gz' for i in range(low,high+1)],
+        # [macro+'/ibdsegs/chr'+str(i)+'.rephased.adx.hapibd.ibd.gz' for i in range(low,high+1)],
         # ibd segment detection
     output:
         yaml=macro+'/arguments.yaml',

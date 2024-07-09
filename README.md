@@ -1,20 +1,31 @@
-# Pipeline for local ancestry & IBD inference, 
+# Pipeline for local ancestry & IBD inference 
 
-This pipeline performs phasing and local ancestry inference for an analysis of target admixed samples. You can also call IBD segments.
+Perform phasing and local ancestry inference for an analysis of target admixed samples. 
+
+Also, call IBD segments.
 
 <img src="dag-240418.png" align="center" width="600px"/>
 
-You can look at `dag-*` files to see what the pipeline looks like / looked like.
+<!-- You can look at `dag-*` files to see what the pipeline looks like / looked like. -->
 
 ## Installation
 
-1. `git clone https://github.com/sdtemple/flare-pipeline`
-2. Install `java` so as to be able to run `java -jar` on terminal
-3. `bash get-software.sh software` (requires `wget`)
-4. `mamba env create -f conda-env.yml`
-    - I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
-    - In which case, `mamba env create -f conda-env.yml`
-    - See `misc/installing-mamba.md` for further support
+1. Clone the repository.
+```
+git clone https://github.com/sdtemple/flare-pipeline
+```
+2. Install `java` so as to be able to run `java -jar` on terminal.
+3. Download additional software (requires `wget`).
+```
+bash get-software.sh software
+```
+4. Make the Python enviroment.
+```
+mamba env create -f conda-env.yml
+```
+- I recommend using `mamba` of some sort (https://mamba.readthedocs.io/en/latest/index.html)
+- In which case, `mamba env create -f conda-env.yml`
+- See `misc/installing-mamba.md` for further support
 
 ## Requirements
 
@@ -36,27 +47,32 @@ To subset or manipulate VCFs and GDSs:
 2. Modify the `your.analysis.arguments.yaml` file
     - See the `change:` settings
     - You need to choose a reference sample!
-3. `snakemake -c1 -n`
-    - This is a dry run to see what will be run
-4. `nohup snakemake -c1 --latency-wait 300 --keep-going --cluster " [your command]  " --configfile your.analysis.arguments.yaml --jobs XXX &`
-    - Other useful `snakemake` commands
-        - `--rerun-incomplete`
-        - `--rerun-triggers mtime`
-        - `--force-all` ???
-    - Commands for `qsub`
-        - `--cluster "qsub -q your-queue.q -m e -M your.email@uni.edu -pe local XXX -l h_vmem=XXXG -V" `
-        - "-V" is important to pass in your conda environment!
-        - "-pe local XXX" is how many threads you will use
-        - You don't have to send emails to yourself if you don't want to
-    - Commands for `slurm`
-        - `--cluster "sbatch [options]" `
-            - "-e ~/your-logs/{rule}.e" and "-o ~/your-logs/{rule}.o" will control where stderr, stdout go
-            - "--cpus-per-task=XX" says how many cpus per job
-            - "--nodes=XX" says how many nodes per job
-            - "--partition=SOMENAME" says which partitions to use
-            - "--mem=XX" says how much memory in MB
-            - "--mail-type=ALL" and "--mail-user=your.email@university.edu" sends mail to you when a job finishes
-            - "--job-name={rule}"
+3. Do a dry-run of the pipeline. Check which rules will run.
+```
+snakemake -c1 -n --configfile *.yaml
+```
+4. Run the pipeline for real.
+```
+nohup snakemake -c1 --latency-wait 300 --keep-going --cluster "[options]" --configfile *.yaml --jobs XXX &
+```
+- Other useful `snakemake` commands
+    - `--rerun-incomplete`
+    - `--rerun-triggers mtime`
+    - `--force-all` ???
+- Commands for `qsub`
+    - `--cluster "qsub -q your-queue.q -m e -M your.email@uni.edu -pe local XXX -l h_vmem=XXXG -V" `
+    - "-V" is important to pass in your conda environment!
+    - "-pe local XXX" is how many threads you will use
+    - You don't have to send emails to yourself if you don't want to
+- Commands for `slurm`
+    - `--cluster "sbatch [options]" `
+        - "-e ~/your-logs/{rule}.e" and "-o ~/your-logs/{rule}.o" will control where stderr, stdout go
+        - "--cpus-per-task=XX" says how many cpus per job
+        - "--nodes=XX" says how many nodes per job
+        - "--partition=SOMENAME" says which partitions to use
+        - "--mem=XX" says how much memory in MB
+        - "--mail-type=ALL" and "--mail-user=your.email@university.edu" sends mail to you when a job finishes
+        - "--job-name={rule}"
     - You can sign out of cluster. `no hup ... &` will keep this as an ongoing process until complete
 5. Your LAI results in a `lai/` folder
 6. Your IBD results in a `ibdsegs/` folder
@@ -74,8 +90,6 @@ Make sure to change the `your-analysis-folder` setting.
 
 - Running out of memory: increase cluster-resouces:xmxmem in yaml and terminal pass into `--cluster`
 - Names are different in CHROM column between reference and target samples
-- Reference sample is not phased
-    - Comment out `[macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],` in the rule `record_yaml`
 - JAR file is corrupted: download a fresh version
     - Changed the `remove-phase.jar` to `remove-phase.py`
 
@@ -146,19 +160,21 @@ You can call detect IBD segments by removing the comments in `record_yaml` rule.
     3. Comment out this: `[macro+'/lai/chr'+str(i)+'.rephased.flare.anc.vcf.gz' for i in range(low,high+1)],`
     4. Keep this: `[macro+'/lai/chr'+str(i)+'.referencephased.flare.anc.vcf.gz' for i in range(low,high+1)],`
 
-## Development
+## Development things to do
 
 - This repo currently uses snakemake 7.25.2
     - May extend to version 8 as I develop familiarity in other repos
-- Implement other local ancestry inference software
+<!-- - Implement other local ancestry inference software
     - For example, MOSAIC from Salter-Townshend and Myers
 - Impute other phasing software
-    - For example, SHAPEIT
+    - For example, SHAPEIT -->
 - Initial data can be `*.gds` OR `*.vcf`
 
 ## Citation
 
-It takes time to make these pipelines. I am a early career researcher and appreciate credit. (smiley facy) Please:
+It takes time to make these pipelines. I am a early career researcher and appreciate credit. 
+
+(smiley face) Please:
 - At time of publication, check this repo to see if we have a paper introducing the pipeline.
     - (If we publish this pipeline somewhere, I will point out the paper.)
 - Acknowledge me in publication.
@@ -167,10 +183,10 @@ You should be citing (see `get-software.sh`):
 - `beagle`
 - `flare`
 
-## Contact
+<!-- ## Contact
 
 Seth D. Temple
 
 sdtemple.github.io
 
-sdtemple@uw.edu
+sdtemple@uw.edu -->

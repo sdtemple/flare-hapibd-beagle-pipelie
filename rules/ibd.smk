@@ -52,7 +52,7 @@ rule hapibd_adx_referencephased:
         minseed=str(config['fixed']['hapibd-parameters']['min-seed']),
         maxgap=str(config['fixed']['hapibd-parameters']['max-gap']),
         prog=str(config['fixed']['programs']['hapibd']),
-        adxout='{study}/ibdsegs/chr{num}.rephased.adx.hapibd',
+        adxout='{study}/ibdsegs/chr{num}.referencephased.adx.hapibd',
         nthreads=str(config['change']['cluster-resources']['threads']),
         xmxmem=str(config['change']['cluster-resources']['xmxmem']),
         minmac=str(config['fixed']['hapibd-parameters']['min-mac']),
